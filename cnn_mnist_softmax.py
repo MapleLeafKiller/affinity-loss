@@ -64,7 +64,7 @@ def train(inbalance_size):
 
     max_acc = max(history["val_acc"])
     max_f1 = max(f1.f1_log)
-    print(f"{inbalance_size} {max_acc:.04} {max_f1:.04}")
+    print("{inbalance_size} {max_acc:.04} {max_f1:.04}")
 
 if __name__ == "__main__":
     for n in [500, 200, 100, 50, 20, 10]:

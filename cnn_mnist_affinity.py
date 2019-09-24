@@ -4,7 +4,7 @@ from keras.models import Model
 from keras.optimizers import SGD
 from keras.callbacks import LearningRateScheduler, Callback
 import keras.backend as K
-from affnity_loss import *
+from affinity_loss import *
 from datasets import inbalanced_mnist
 
 import numpy as np
@@ -69,11 +69,16 @@ def train(inbalance_size):
     history = model.fit(X_train, y_train, validation_data=(X_test, y_test), callbacks=[scheduler, f1],
                         batch_size=128, epochs=100, verbose=0).history
 
+    # history = model.fit(X_train, y_train, validation_data=(X_test, y_test), callbacks=[scheduler, f1],
+    #                     batch_size=128, epochs=10, verbose=0).history
+
     max_acc = max(history["val_acc"])
     max_f1 = max(f1.f1_log)
-    print(f"{inbalance_size} {max_acc:.04} {max_f1:.04}")
+    print("max_acc:", max_acc, "max_f1:", max_f1)
+
 
 if __name__ == "__main__":
-    for n in [500, 200, 100, 50, 20, 10]:
+    # for n in [500, 200, 100, 50, 20, 10]:
+    for n in [10]:
         K.clear_session()
         train(n)

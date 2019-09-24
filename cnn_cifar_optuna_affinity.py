@@ -86,7 +86,7 @@ def train(lambd, sigma, n_centers, trial):
                         batch_size=640, epochs=100, verbose=0).history
 
     max_f1 = max(f1.f1_log)
-    print(f"lambda:{lambd:.04}, sigma:{sigma:.04} n_centers:{n_centers} / f1 = {max_f1:.04}")
+    print("lambda:{lambd:.04}, sigma:{sigma:.04} n_centers:{n_centers} / f1 = {max_f1:.04}")
     return max_f1
 
 def objective(trial):
