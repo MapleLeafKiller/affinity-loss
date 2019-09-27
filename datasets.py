@@ -2,12 +2,15 @@ from keras.datasets import mnist, cifar10
 import numpy as np
 from keras.utils import to_categorical
 
+
 def inbalanced_mnist(inbalance_size):
     (X_train, y_train), (X_test, y_test) = mnist.load_data()
+
     filters = np.zeros(X_train.shape[0], dtype=np.bool)
     for i in range(10):
         current_filters = y_train == i
         if i % 2 == 0:
+            # set examples beyond size(inbalance_size*6) to be false, i.e., undersampling
             current_filters = np.logical_and(current_filters, np.cumsum(current_filters)<=inbalance_size*6)
         filters = np.logical_or(filters, current_filters)
     X_train, y_train = X_train[filters], y_train[filters]
@@ -28,6 +31,7 @@ def inbalanced_mnist(inbalance_size):
     y_train = np.concatenate([y_train, dummy_train], axis=-1)
     y_test = np.concatenate([y_test, dummy_test], axis=-1)
 
+    # shape:(-1, 28, 28, 1) (-1, 11) (-1, 28, 28, 1) (-1, 11)
     return (X_train, y_train), (X_test, y_test)
 
 def inbalanced_cifar(inbalance_size):

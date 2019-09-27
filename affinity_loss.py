@@ -64,6 +64,7 @@ def affinity_loss(lambd):
         onehot = y_true_plusone[:, :-1]
         # pred
         distance = y_pred_plusone[:, :-1]
+        # regularizier
         rw = tf.reduce_mean(y_pred_plusone[:, -1])
 
         # L_mm

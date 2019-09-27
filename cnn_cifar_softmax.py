@@ -1,8 +1,8 @@
 import tensorflow as tf
-from tensorflow.keras import layers
-from tensorflow.keras.models import Model
-from tensorflow.keras.callbacks import LearningRateScheduler, Callback
-import tensorflow.keras.backend as K
+from tensorflow.python.keras import layers
+from tensorflow.python.keras.models import Model
+from tensorflow.python.keras.callbacks import LearningRateScheduler, Callback
+import tensorflow.python.keras.backend as K
 from tensorflow.contrib.tpu.python.tpu import keras_support
 
 from keras.datasets import cifar10
@@ -76,7 +76,7 @@ def train(inbalance_size):
 
     max_acc = max(history["val_acc"])
     max_f1 = max(f1.f1_log)
-    print(f"{inbalance_size} {max_acc:.04} {max_f1:.04}")
+    print("max_acc:", max_acc, "max_f1:", max_f1)
 
 if __name__ == "__main__":
     for i in range(1):

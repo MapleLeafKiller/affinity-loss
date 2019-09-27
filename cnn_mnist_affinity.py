@@ -1,9 +1,9 @@
-import tensorflow as tf
-from keras import layers
+# import tensorflow as tf
+# from keras import layers
 from keras.models import Model
-from keras.optimizers import SGD
+# from keras.optimizers import SGD
 from keras.callbacks import LearningRateScheduler, Callback
-import keras.backend as K
+# import keras.backend as K
 from affinity_loss import *
 from datasets import inbalanced_mnist
 
@@ -50,7 +50,6 @@ class F1Callback(Callback):
         self.f1_log = []
 
     def on_epoch_end(self, epoch, logs):
-        if epoch % 25 == 0: print(epoch, "ends")
         y_pred = self.model.predict(self.X_test)[:, :10]
         y_pred_label = np.argmax(y_pred, axis=-1)
         f1 = f1_score(self.y_test_label, y_pred_label, average="macro")
@@ -66,11 +65,11 @@ def train(inbalance_size):
     scheduler = LearningRateScheduler(step_decay)
     f1 = F1Callback(model, X_test, y_test)
 
-    history = model.fit(X_train, y_train, validation_data=(X_test, y_test), callbacks=[scheduler, f1],
-                        batch_size=128, epochs=100, verbose=0).history
-
     # history = model.fit(X_train, y_train, validation_data=(X_test, y_test), callbacks=[scheduler, f1],
-    #                     batch_size=128, epochs=10, verbose=0).history
+    #                     batch_size=128, epochs=100, verbose=0).history
+
+    history = model.fit(X_train, y_train, validation_data=(X_test, y_test), callbacks=[scheduler, f1],
+                        batch_size=128, epochs=5, verbose=2).history
 
     max_acc = max(history["val_acc"])
     max_f1 = max(f1.f1_log)

@@ -41,15 +41,18 @@ class F1Callback(Callback):
         self.f1_log = []
 
     def on_epoch_end(self, epoch, logs):
-        if epoch % 25 == 0: print(epoch, "ends")
         y_pred = self.model.predict(self.X_test)[:, :10]
         y_pred_label = np.argmax(y_pred, axis=-1)
         f1 = f1_score(self.y_test_label, y_pred_label, average="macro")
         #print(f1)
         self.f1_log.append(f1)
 
+
 def train(inbalance_size):
+
     (X_train, y_train), (X_test, y_test) = inbalanced_mnist(inbalance_size)
+
+    # use the original part, dump the regularization term(softmax loss doesn't need this)
     y_train = y_train[:, :10]
     y_test = y_test[:, :10]
 
@@ -60,13 +63,16 @@ def train(inbalance_size):
     f1 = F1Callback(model, X_test, y_test)
 
     history = model.fit(X_train, y_train, validation_data=(X_test, y_test), callbacks=[scheduler, f1],
-                        batch_size=128, epochs=100, verbose=0).history
+                        batch_size=128, epochs=100, verbose=2).history
+    # history = model.fit(X_train, y_train, validation_data=(X_test, y_test), callbacks=[scheduler, f1],
+    #                     batch_size=128, epochs=5, verbose=2).history
 
     max_acc = max(history["val_acc"])
     max_f1 = max(f1.f1_log)
-    print("{inbalance_size} {max_acc:.04} {max_f1:.04}")
+    print("max_acc:", max_acc, "max_f1:", max_f1)
 
 if __name__ == "__main__":
-    for n in [500, 200, 100, 50, 20, 10]:
+    # for n in [500, 200, 100, 50, 20, 10]:
+    for n in [10]:
         K.clear_session()
         train(n)
