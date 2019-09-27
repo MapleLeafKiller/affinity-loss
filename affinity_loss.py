@@ -58,6 +58,7 @@ class ClusteringAffinity(layers.Layer):
         # Please ignore it at predict time
         return (input_shape[0], self.n_classes+1)
 
+
 def affinity_loss(lambd):
     def loss(y_true_plusone, y_pred_plusone):
         # true
@@ -74,3 +75,4 @@ def affinity_loss(lambd):
 
         return L_mm + rw
     return loss
+
