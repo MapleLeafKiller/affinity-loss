@@ -1,1 +1,3 @@
+0. this project use tensorflow, keras
+
 not much explanation, so drop this project
